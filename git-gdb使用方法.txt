@@ -1,3 +1,14 @@
+mac安装gdb,不是一般的折腾
+生成证书的时候，最后一步一定要选择“系统”
+https://sourceware.org/gdb/wiki/BuildingOnDarwin
+
+Start Keychain Access application (/Applications/Utilities/Keychain Access.app)
+
+Open the menu item /Keychain Access/Certificate Assistant/Create a Certificate...
+
+Choose a name (gdb-cert in the example), set Identity Type to Self Signed Root, set Certificate Type to Code Signing and select the Let me override defaults. Click several times on Continue until you get to the Specify a Location For The Certificate screen, then set Keychain to System.
+
+
 run / r
 运行准备调试的程序
 display {*arr@size} 显示数组arr的前size个元素
