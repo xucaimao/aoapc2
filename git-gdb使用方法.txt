@@ -1,0 +1,21 @@
+run / r
+运行准备调试的程序
+display {*arr@size} 显示数组arr的前size个元素
+display {b1,b2,b3} 显示多个变量，同类型的放一起显示
+
+
+生成密匙
+cd ~/.ssh
+ssh-keygen -t rsa -C "xcmgj@163.com"
+测试联通
+ssh -T git@github.com
+
+git使用的主要命令
+git init
+git config --global user.name "xucaimao"
+git config --global user.email "xcmgj@163.com"
+
+git clone git@github.com:xucaimao/aoapc2.git
+git add .
+git commit -m "修改信息"
+git push origin master
