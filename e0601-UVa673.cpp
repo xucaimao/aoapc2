@@ -4,7 +4,7 @@
 //数据输入是重点，不熟练
 //scanf("%s",line)会忽略掉空行，造成程序错误.可以采用gets()函数
 //输入数据最后要有一行空行
-#include<stdio>
+#include<cstdio>
 char stack[150];	//用数组模拟栈
 int s_top=-1;		//栈空
 int main(){
