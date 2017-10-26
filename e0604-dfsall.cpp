@@ -21,18 +21,27 @@ void dfs(char pchr,char pnum,int step){
 	if(pchr<'a' || pchr>'h' || pnum<'1' || pnum>'8') return;		//这里其实就是一个剪枝
 	
 	if(pchr==ts[0] && pnum==ts[1]){
-		//到目的地,只保存小的步数
-		if(step<minstep)
-			minstep=step;
+		//到目的地,开始打印输出路径
+		if(step==0)printf("Not to move!!\n");
+		else{
+			printf("Total %d steps !!!\n",step);
+			for(int i=0;i<=stop;i++)printf("%c%c  ",ans[i][0],ans[i][1]);	
+			printf("\n");
+		}	
 		return;
 	}
 		
 	for(int i=0;i<8;i++){
-		//走一步棋,此处注意不能改变函数入口的sr,sc的值
+		//走一步棋
 		char npchr=pchr+dir[i][0];
 		char npnum=pnum+dir[i][1];
+		//保存数据
+		stop++;
+		ans[stop][0]=npchr;
+		ans[stop][1]=npnum;
 		dfs(npchr,npnum,step+1);
-		//因为前面没有改变值，这里就不需要做恢复数据的处理
+		//恢复数据的处理
+		stop--;
 	}
 }
 
@@ -40,9 +49,13 @@ int main(){
 	freopen("e0604.in","r",stdin);
 	while( scanf("%s%s",ss,ts)==2 ){
 		minstep=1000;
-		//printf("Input pos is : %s and %s !!\n",ss,ts);
+		//起点位置入栈
+		stop=0;
+		ans[stop][0]=ss[0];
+		ans[stop][1]=ss[1];
+		printf("The way from %s to %s are:\n",ss,ts);
 		dfs(ss[0],ss[1],0);
-		printf("To get from %s to %s takes %d knight moves.\n",ss,ts,minstep);
+		//printf("To get from %s to %s takes %d knight moves.\n",ss,ts,minstep);
 	}
 	return 0;
 }
