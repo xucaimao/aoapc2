@@ -29,4 +29,5 @@ git config --global user.email "xcmgj@163.com"
 git clone git@github.com:xucaimao/aoapc2.git
 git add .
 git commit -m "修改信息"
-git push origin master
+git push origin master  提交修改到远程
+git fetch origin master 从远程的origin仓库的master分支下载代码到本地
