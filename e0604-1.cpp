@@ -6,12 +6,10 @@
 int board[8][8];
 char ss[5];
 char ts[5];
-//八个方向移动，每一个方向[r,c]值
+//八个方向移动，每一个方向[r,c]的增量值
 int dir[8][2]={{-1,2},{1,2},{2,1},{2,-1},{1,-2},{-1,-2},{-2,-1},{-2,1}};
 int minstep;
 int tr,tc;//目标位置
-char ans[10000][2];//用数组模拟的路径记录的栈
-int stop;//栈顶指针
 
 //判断棋子是否在棋盘上
 bool isOnBoard(int row,int col){
@@ -21,53 +19,31 @@ bool isOnBoard(int row,int col){
 		return true;
 }
 
-//修改成打印所有解的程序
-void dfsAll(int sr,int sc,int step){
-	if(sr==tr && sc==tc){
-		//到目的地,打印一种解
-		
-		return;
-	}
-	//超出棋盘范围
-	if(!isOnBoard(sr,sc)) 
-		return;		//这里其实就是一个剪枝
-	//步数超出既有解，不接着往下计算
-	//if(step>minstep) return;		//要求所有解，这里就不能剪枝
-	for(int i=0;i<8;i++){
-		//走一步棋,此处注意不能改变函数入口的sr,sc的值
-		int nsr=sr+dir[i][0];
-		int nsc=sc+dir[i][1];
-		solve(nsr,nsc,step+1);
-		//因为前面没有改变值，这里就不需要做恢复数据的处理
-		}
-}
-
 //其实是一个dfs的过程
 void solve(int sr,int sc,int step){
+	//printf("r%d c%d step=%d\n",sr,sc,step);
 	if(sr==tr && sc==tc){
 		//到目的地
 		if(step<minstep)minstep=step;
 		return;
 	}
 	//超出棋盘范围
-	if(!isOnBoard(sr,sc)) 
-		return;		//这里其实就是一个剪枝
+	if(!isOnBoard(sr,sc)) return;		//这里其实就是一个剪枝
 	//步数超出既有解，不接着往下计算
-	if(step>minstep) 
-		return;		//这里其实就是一个剪枝
+	if(step>=minstep) return;		//这里其实就是一个剪枝
 	for(int i=0;i<8;i++){
 		//走一步棋,此处注意不能改变函数入口的sr,sc的值
 		int nsr=sr+dir[i][0];
 		int nsc=sc+dir[i][1];
 		solve(nsr,nsc,step+1);
 		//因为前面没有改变值，这里就不需要做恢复数据的处理
-		}
+	}
 }
 
 int main(){
-	freopen("e0604-2.in","r",stdin);
+	freopen("e0604.in","r",stdin);
 	while( scanf("%s%s",ss,ts)==2 ){
-		//minstep=100000;
+		minstep=1000;
 		//printf("Input pos is : %s and %s !!\n",ss,ts);
 		int sr,sc;	//初始和目标位置
 		sc=ss[0]-'a';

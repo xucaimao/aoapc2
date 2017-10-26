@@ -29,7 +29,7 @@ void dfs(int x,int y,int step){
   
   
 int main(){  
-      
+    freopen("e0604.in","r",stdin);  
     while(cin>>beginstr>>endstr){  
           
         minstep=999;  
