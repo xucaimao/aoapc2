@@ -75,10 +75,10 @@ int main(){
 		way_temp.clear();
 		dfs(postorder[n-1],0,1);
 		cout<<best<<endl;
-		//cout<<"The best way is: ";
-		//for(int i=0;i<way_best.size();i++)
-			//cout<<way_best[i]<<" ";
-		//cout<<endl;
+		cout<<"The best way is: ";
+		for(int i=0;i<way_best.size();i++)
+			cout<<way_best[i]<<" ";
+		cout<<endl;
 	}
 	return 0;
 }
