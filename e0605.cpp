@@ -42,7 +42,7 @@ void bfs(){
 	que.push(p);//(1,1)进入队列
 	vis[1][1][0]=1;
 	while(!que.empty()){
-		p=que.front();//队首元素出队列，此次掌握有问题
+		p=que.front();//队首元素出队列，此处掌握有问题
 		que.pop();
 		if(p.m==12 && p.n==1)
 			printf("To 12,1\n");
