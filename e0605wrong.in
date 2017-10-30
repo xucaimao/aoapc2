@@ -1,0 +1,50 @@
+1
+12 20
+2
+0 1 1 1 0 1 1 0 0 1 1 1 0 1 1 0 0 1 1 1
+0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1
+0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1
+0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1
+0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1
+0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1
+0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1
+0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1
+0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1
+0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1
+0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1 0 1 1 1
+0 1 1 0 0 1 1 1 0 1 1 0 0 1 1 1 0 1 1 0
+
+下面是debug的截图，行号和现有程序对不上了
+
+reakpoint 2, bfs () at e0605.cpp:41
+41				printf("To 12,1\n");
+(gdb) n
+To 12,1
+42			if(p.m==M && p.n==N){//找到一个解
+(gdb) display p
+1: p = {m = 12, n = 1, deep = 11, k = 0}
+(gdb) n
+47			for(int i=0;i<4;i++){//四个方向尝试
+1: p = {m = 12, n = 1, deep = 11, k = 0}
+(gdb) n
+48				int nm=p.m+dir[i][0];
+1: p = {m = 12, n = 1, deep = 11, k = 0}
+(gdb) n
+49				int nn=p.n+dir[i][1];
+1: p = {m = 12, n = 1, deep = 11, k = 0}
+(gdb) n
+50				if(nm==12 && nm==3)
+1: p = {m = 12, n = 1, deep = 11, k = 0}
+(gdb) display {i,nm,nn,k}
+No symbol "k" in current context.
+(gdb) n
+52				if(nm>=1 && nm<=M && nn>=1 && nn<=N && !vis[nm][nn]){//在网格范围内且未被访问过
+1: p = {m = 12, n = 1, deep = 11, k = 0}
+(gdb) display length
+No symbol "length" in current context.
+(gdb) display len
+2: len = 3
+(gdb) display {grid[p.m][p.n],grid[nm][nn]}
+3: {grid[p.m][p.n],grid[nm][nn]} = {0, 1}
+(gdb) display vis[nm][nn]
+4: vis[nm][nn] = 1     //重点在这里，因为这个状态，导致不能往右边再搜索了
