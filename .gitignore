@@ -36,3 +36,7 @@
 #CLion
 cmake-build-debug
 
+#vscode
+.vscode
+*.json
+
