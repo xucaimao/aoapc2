@@ -1,5 +1,5 @@
-mac°²×°gdb,²»ÊÇÒ»°ãµÄÕÛÌÚ
-Éú³ÉÖ¤ÊéµÄÊ±ºò£¬×îºóÒ»²½Ò»¶¨ÒªÑ¡Ôñ¡°ÏµÍ³¡±
+macå®‰è£…gdb,ä¸æ˜¯ä¸€èˆ¬çš„æŠ˜è…¾
+ç”Ÿæˆè¯ä¹¦çš„æ—¶å€™ï¼Œæœ€åä¸€æ­¥ä¸€å®šè¦é€‰æ‹©â€œç³»ç»Ÿâ€
 https://sourceware.org/gdb/wiki/BuildingOnDarwin
 
 Start Keychain Access application (/Applications/Utilities/Keychain Access.app)
@@ -10,24 +10,28 @@ Choose a name (gdb-cert in the example), set Identity Type to Self Signed Root, 
 
 
 run / r
-ÔËĞĞ×¼±¸µ÷ÊÔµÄ³ÌĞò
-display {*arr@size} ÏÔÊ¾Êı×éarrµÄÇ°size¸öÔªËØ
-display {b1,b2,b3} ÏÔÊ¾¶à¸ö±äÁ¿£¬Í¬ÀàĞÍµÄ·ÅÒ»ÆğÏÔÊ¾
+è¿è¡Œå‡†å¤‡è°ƒè¯•çš„ç¨‹åº
+display {*arr@size} æ˜¾ç¤ºæ•°ç»„arrçš„å‰sizeä¸ªå…ƒç´ 
+display {b1,b2,b3} æ˜¾ç¤ºå¤šä¸ªå˜é‡ï¼ŒåŒç±»å‹çš„æ”¾ä¸€èµ·æ˜¾ç¤º
 
 
-Éú³ÉÃÜ³×
+ç”Ÿæˆå¯†åŒ™
 cd ~/.ssh
 ssh-keygen -t rsa -C "xcmgj@163.com"
-²âÊÔÁªÍ¨
+æµ‹è¯•è”é€š
 ssh -T git@github.com
 
-gitÊ¹ÓÃµÄÖ÷ÒªÃüÁî
+gitä½¿ç”¨çš„ä¸»è¦å‘½ä»¤
 git init
 git config --global user.name "xucaimao"
 git config --global user.email "xcmgj@163.com"
 
 git clone git@github.com:xucaimao/aoapc2.git
 git add .
-git commit -m "ĞŞ¸ÄĞÅÏ¢"
-git push origin master  Ìá½»ĞŞ¸Äµ½Ô¶³Ì
-git fetch origin master ´ÓÔ¶³ÌµÄorigin²Ö¿âµÄmaster·ÖÖ§ÏÂÔØ´úÂëµ½±¾µØ
+git commit -m "ä¿®æ”¹ä¿¡æ¯"
+git push origin master  æäº¤ä¿®æ”¹åˆ°è¿œç¨‹
+
+
+å‡å¦‚æœ¬åœ°å·²ç»å­˜åœ¨äº†ä»£ç ï¼Œè€Œä»“åº“é‡Œæœ‰æ›´æ–°ï¼ŒæŠŠæ›´æ”¹çš„åˆå¹¶åˆ°æœ¬åœ°çš„é¡¹ç›®ï¼š
+$git fetch origin //è·å–è¿œç¨‹æ›´æ–°
+$git merge origin/master //æŠŠæ›´æ–°çš„å†…å®¹åˆå¹¶åˆ°æœ¬åœ°åˆ†æ”¯

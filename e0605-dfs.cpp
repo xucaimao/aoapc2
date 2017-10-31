@@ -9,6 +9,7 @@
 到达终点。用一个vis[][][]三维数组就可以记录这样一种状态，前两维记录坐标，第三维记录已经破除
 障碍物的数量，数组值表示走的步数，与上边一样的道理，到达相同点并且破除障碍物数量相同时，应该
 选择步数最小的。*/
+//本题采用dfs
 
 #include<cstdio>
 #include<cstring>
@@ -17,12 +18,11 @@ using namespace std;
 
 struct Point{
 	int m,n;
-	int deep;//总路径长度
 	int k;//用于记录连续障碍数量
 };
 
 const int maxn=25;
-const int maxsetp=10000;
+const int maxsetp=100;
 int grid[maxn][maxn];//记录网格数据
 int vis[maxn][maxn][maxn];//此处是错误的根源
 Point path[500];
@@ -31,40 +31,38 @@ queue<Point> que;
 int dir[4][2]={ {0,1},{1,0},{-1,0},{0,-1} };//右下上左四个方向m,n的增量
 int mindeep;
 
-void bfs(){
-	Point p;
-	p.m=1;p.n=1;p.deep=0;p.k=0;
-	que.push(p);//(1,1)进入队列
-	vis[1][1][0]=1;
-	while(!que.empty()){
-		p=que.front();//队首元素出队列，此处掌握有问题
-		que.pop();
-		//if(p.m==12 && p.n==1)
-			//printf("To 12,1\n");
-		if(p.m==M && p.n==N){//找到一个解
-			//printf("One answer is : %d !!\n",p.deep);
-			if(p.deep<mindeep) mindeep=p.deep;
-			continue;
-		}
-		for(int i=0;i<4;i++){//四个方向尝试
-			int nm=p.m+dir[i][0];
-			int nn=p.n+dir[i][1];
-			//先求点的k值
-			int k;
-			if(grid[nm][nn]==1)k=p.k+1;
-			else k=0;
 
-			if(nm>=1 && nm<=M && nn>=1 && nn<=N && !vis[nm][nn][k]){//在网格范围内且未被访问过
-				if(k<=K){//同时满足障碍条件
-					Point np;
-					np.m=nm;np.n=nn;np.deep=p.deep+1;np.k=k;
-					que.push(np);
-					//printf("push %d,%d \n",nm,nn);
-					vis[nm][nn][k]=1;
-				}
+void dfs(Point p,int deep){
+
+	if(deep>mindeep)return;
+
+	if(p.m==M && p.n==N){//找到一个解
+		//printf("One answer is : %d !!\n",p.deep);
+		if(deep<mindeep) mindeep=deep;
+		return;
+	}
+
+	for(int i=0;i<4;i++){//四个方向尝试
+		int nm=p.m+dir[i][0];
+		int nn=p.n+dir[i][1];
+		//先求点的k值
+		int k;
+		if(grid[nm][nn]==1)k=p.k+1;
+		else k=0;
+		int ndeep=deep+1;
+
+		if(nm>=1 && nm<=M && nn>=1 && nn<=N && !vis[nm][nn][k]){//在网格范围内且未被访问过
+			if(k<=K){//同时满足障碍条件
+				Point np;
+				np.m=nm;np.n=nn;np.k=k;
+				vis[nm][nn][k]=1;
+				dfs(np,ndeep);
+				vis[nm][nn][k]=0;
 			}
 		}
 	}
+
+
 }
 
 int main(){
@@ -80,7 +78,12 @@ int main(){
 				scanf("%d",&grid[m][n]);//读入一行网格数据
 		}
 		mindeep=maxsetp;	
-		bfs();
+		
+		Point p;
+		p.m=1;p.n=1;p.k=0;
+		vis[1][1][0]=1;
+		dfs(p,0);
+
 		if(mindeep==maxsetp)printf("-1\n");
 		else printf("%d\n",mindeep);
 	}

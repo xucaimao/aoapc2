@@ -9,7 +9,7 @@
 到达终点。用一个vis[][][]三维数组就可以记录这样一种状态，前两维记录坐标，第三维记录已经破除
 障碍物的数量，数组值表示走的步数，与上边一样的道理，到达相同点并且破除障碍物数量相同时，应该
 选择步数最小的。*/
-//增加打印路径的功能
+//增加打印路径的功能，路径的记录也要通过三维数组。同时路径的回溯也很有难度
 #include<cstdio>
 #include<cstring>
 #include<queue>
@@ -30,6 +30,7 @@ Point father[maxn][maxn][maxn];//parent[m][n]的值就是点m,n的父节点
 Point minfa[maxn][maxn][maxn];
 int M,N,K;
 queue<Point> que;
+Point pend;//用于记录最后的目标点
 
 int dir[4][2]={ {0,1},{1,0},{-1,0},{0,-1} };//右下上左四个方向m,n的增量
 int mindeep;
@@ -38,8 +39,7 @@ int datanum=0;//总的数据组数
 void printpath(Point fa[maxn][maxn][maxn]){
 	vector<Point> path;
 	path.clear();
-	Point p;
-	p.m=M;p.n=N;
+	Point p=pend;//此处也是一个关键点。
 	while(true){
 		if(p.m>=1 && p.m<=M && p.n>=1 && p.n<=N){
 			path.push_back(p);
@@ -50,13 +50,11 @@ void printpath(Point fa[maxn][maxn][maxn]){
 		else{
 			printf("Error!!!\n");
 			return;
-		} 
-		
+		} 	
 	}
-
 	int len=path.size();
 	for(int i=len-1;i>=0;i--)
-		printf("%2d,%2d",path[i].m,path[i].n);
+		printf("（%2d,%2d） ",path[i].m,path[i].n);
 	printf("\n");
 }
 
@@ -65,7 +63,7 @@ void bfs(){
 	p.m=1;p.n=1;p.deep=0;p.k=0;
 	que.push(p);//(1,1)进入队列
 	vis[1][1][0]=1;
-	father[1][1][0]=p;
+	father[1][1][0]=p;//记录路径的首点
 	while(!que.empty()){
 		p=que.front();//队首元素出队列，此处掌握有问题
 		que.pop();
@@ -75,8 +73,9 @@ void bfs(){
 			//printf("One answer is : %d !!\n",p.deep);
 			if(p.deep<mindeep) {
 				mindeep=p.deep;
-				memcpy(minfa,father,sizeof(father));
-				//memset(father,0,sizeof(father));
+				//在此处记录很关键。开始在95行记录，有个别case通不过。
+				pend=p;//记录路径的最后一点。必须有这一步，然后由这一点回溯得到完整的路径。
+				memcpy(minfa,father,sizeof(father));//保存最短路径
 			}
 			continue;
 		}
@@ -93,6 +92,7 @@ void bfs(){
 					Point np;
 					np.m=nm;np.n=nn;np.deep=p.deep+1;np.k=k;
 					que.push(np);
+					//pend=np;
 					father[nm][nn][k]=p;//记录点[nm,nn]的父节点
 					//printf("push %d,%d \n",nm,nn);
 					vis[nm][nn][k]=1;
