@@ -55,7 +55,7 @@ void bfs(){
 			else k=0;
 
 			if(nm>=1 && nm<=M && nn>=1 && nn<=N && !vis[nm][nn][k]){//在网格范围内且未被访问过
-				if(k<=K){//同时满足障碍条件
+				if(k<=K){//同时满足障碍条件，用新的点替换
 					Point np;
 					np.m=nm;np.n=nn;np.deep=p.deep+1;np.k=k;
 					que.push(np);
