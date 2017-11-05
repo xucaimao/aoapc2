@@ -1,5 +1,5 @@
 //算法竞赛入门经典第二版 习题6-5 UVa1600 Patrol Robot
-//write by xucaimao,20171029-08:50开始编程，20171030-21:00测试通过
+//write by xucaimao,20171029-08:50开始编程，20171102-21:00测试通过
 /*由题，(1 ≤ m, n ≤ 20)，(0 ≤ k ≤ 20).最多有20x20=400个元素
 刚开始用vis[m][n]二维数组来表示访问状态，调试时遇到一个错误的样例e0605wrong
 通过多次debug，才发现是vis状态不对导致的错误。下面是网上关于这个问题的解释
@@ -10,6 +10,10 @@
 障碍物的数量，数组值表示走的步数，与上边一样的道理，到达相同点并且破除障碍物数量相同时，应该
 选择步数最小的。*/
 //本题采用dfs
+/*
+使用DFS来求解本题代码要更简单一点，DFS求解与BFS求解的主要区别是标志是否访问过某位置的visit
+数组改成了到某位置所需要的路径长度dist数组，需要注意递归的条件，具体实现代码如下：
+*/
 
 #include<cstdio>
 #include<cstring>
@@ -49,15 +53,14 @@ void dfs(Point p,int deep){
 		int k;
 		if(grid[nm][nn]==1)k=p.k+1;
 		else k=0;
-		int ndeep=deep+1;
 
 		if(nm>=1 && nm<=M && nn>=1 && nn<=N && !vis[nm][nn][k]){//在网格范围内且未被访问过
 			if(k<=K){//同时满足障碍条件
 				Point np;
 				np.m=nm;np.n=nn;np.k=k;
 				vis[nm][nn][k]=1;
-				dfs(np,ndeep);
-				vis[nm][nn][k]=0;
+				dfs(np,deep+1);
+				//vis[nm][nn][k]=0;
 			}
 		}
 	}
@@ -67,9 +70,9 @@ void dfs(Point p,int deep){
 
 int main(){
 	freopen("e0605.in","r",stdin);
-	int datanum=0;
-	scanf("%d",&datanum);
-	while(datanum--){
+	int T=0;
+	scanf("%d",&T);
+	while(T--){
 		scanf("%d%d%d",&M,&N,&K);
 		memset(grid,0,sizeof(grid));
 		memset(vis,0,sizeof(vis));
