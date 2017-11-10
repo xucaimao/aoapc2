@@ -24,28 +24,26 @@ char s[1010];
 
 
 void euler(int u){
+	vis[u]--;
 	for(int v=0;v<26;v++)
-		if(G[u][v] && !vis[u][v]){
-			vis[u]=1;
+		if(G[u][v] && vis[v]>0)
 			euler(v);			
-		}
 }
 
 int main(){
 	freopen("f0616.in","r",stdin);
-	//freopen("f0616.out","w",stdin);
+	freopen("f0616.out","w",stdout);
 	int T;
-	scanf("%d",&T);
+	scanf("%d",&T);cl
 	while(T--){
 		int N;
 		scanf("%d",&N);
-		left=N;
 		getchar();
 		while(N--){//输入N个单词，并初始化相关数据
 			memset(G,0,sizeof(G));
 			memset(vis,0,sizeof(vis));
 			memset(s,0,sizeof(s));
-			memset(U,0,sizeof(U));
+
 			scanf("%s",s);
 			int u=s[0]-'a';
 			int v=s[strlen(s)-1]-'a';
@@ -53,16 +51,18 @@ int main(){
 			G[u][v]++;//有向边
 			in[v]++;
 			out[u]++;
-		}
+			vis[u]++;
+			vis[v]++;//将其置为未访问状态
+        }
 
 		int p=0,cnt1=0,cnt2=0,cnt3=0;
 		for(int i=0;i<26;i++){
-			if(out[i]=in[i])
+			if(out[i]=in[i])//出入度相等
 				continue;
 			if(out[i]=in[i]+1){//出度比入度大1，是起点
 				cnt1++;p=i;
 			}
-			else if(in[i]=out[i]+1)
+			else if(in[i]=out[i]+1)//入度比出度大1，是终点
 				cnt2++;
 			else
 				cnt3++;
@@ -73,17 +73,15 @@ int main(){
 		}
 
 		int flag=0;
-		if(cnt1==1 && cnt2==1 || cnt1==0 && cnt2==0)
+		if(cnt1==1 && cnt2==1 || cnt1==0 && cnt2==0){
+			//各有一个出入点，有通路；或者是回路
 			flag=1;
-		else flag=0;
+			euler(p);//从最小字符开始搜索
+			for (int i = 0; i < 26; i++)
+            	if(pvis[i]) flag = 0;//有点没有被访问
+		}
 
-
-
-
-		int i=0;
-		while(U[i]==0) i++;//找到最小字母
-		euler(i);
-		if(left>1)printf("The door cannot be opened.\n");
+		if(flag)printf("The door cannot be opened.\n");
 		else printf("Ordering is possible.\n");
 	}
 	return 0;
