@@ -67,7 +67,7 @@ int main()
             flag = 0;
         dfs(p);
         for (int i = 0; i < 26; i++)
-            if(!vis[i]) flag = 0;//有点没有被访问
+            if(!vis[i]) flag = 0;
         if (flag) printf("Ordering is possible.\n");
         else
             printf("The door cannot be opened.\n");
