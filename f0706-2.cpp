@@ -8,9 +8,10 @@
 #include <cstring>
 const int maxn=30;//字母A~Z,最多26个
 bool vis[maxn];//判断字母是否被使用过
+char letter[10];//记录具体出现的字母
 int G[maxn][10];
 int G2len[maxn];//对应每一个G第二维的有效长度
-int ans[10],minans[10];//节点数最多只有8个
+char ans[10],minans[10];//节点数最多只有8个
 int bandwidth=0,minbandwidth=100;//带宽,最小带宽
 
 int vertexBandWidth(int ans[],int len,int v){
@@ -42,6 +43,7 @@ int stringBandWidth(int ans[],int len){
 void dfs(int vetexnum,int cur){
 	//有vetexnum个节点的图，ans[0...cur-1]是一个最小带宽排列，
 	//在ans[cur]中加入一个字符，使得ans的带宽最小
+	//增加剪枝，提升速度10陪
 	if(cur==vetexnum){
 		//记录最小值
 		int bd=stringBandWidth(ans,cur);
@@ -52,12 +54,14 @@ void dfs(int vetexnum,int cur){
 	}
 	else{
 		for(int ch=0;ch<vetexnum;ch++)
-			//枚举有效字符
+			//枚举出现的有效字符
 			if(!vis[ch]){
-					ans[cur]=ch;
+				ans[cur]=letter[ch];
+				if(vertexBandWidth(ans,cur,ch-'A')<minbandwidth){//剪枝
 					vis[ch]=1;
 					dfs(vetexnum,cur+1);
 					vis[ch]=0;	
+				}		
 			}
 	}
 }
@@ -101,7 +105,7 @@ int main(){
 			for(int i=0;i<maxn;i++)//统计节点数
 				if(G2len[i]>0)vnum++;
 
-			dfs(vnum,0);
+			dfs2(vnum,0);
 			for(int i=0;i<vnum;i++)
 				printf("%c ",minans[i]+'A' );
 			printf("-> %d\n",minbandwidth );
